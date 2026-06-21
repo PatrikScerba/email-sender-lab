@@ -9,7 +9,7 @@
 - nastavenie .gitignore
 - prvý commit a push
 
-### 2. [PLÁN] SMTP konfigurácia
+### 2. [HOTOVO] SMTP konfigurácia
 
 - Spring Mail závislosť
 - Gmail SMTP server
@@ -17,17 +17,19 @@
 - bezpečné uloženie prihlasovacích údajov cez environment variables
 - nastavenie environment variables v IntelliJ Run Configuration
 
-### 3. [PLÁN] Textový email
+### 3. [HOTOVO] Textový email
 
 - odoslanie jednoduchého textového emailu
 - test odoslania emailu
 
-### 4. [PLÁN] HTML email
+### 4. [ROZPRACOVANÉ] HTML email
 
 - Thymeleaf šablóna
 - dynamické údaje v emaile
 - profesionálny podpis systému
 - spoločný dizajn emailov
+- logo systému
+- meno odosielateľa
 - test HTML emailu
 
 ### 5. [PLÁN] Email s prílohou
