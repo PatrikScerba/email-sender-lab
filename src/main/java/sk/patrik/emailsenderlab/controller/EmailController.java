@@ -2,10 +2,7 @@ package sk.patrik.emailsenderlab.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sk.patrik.emailsenderlab.dto.EmailRequest;
 import sk.patrik.emailsenderlab.service.EmailService;
 
@@ -30,5 +27,12 @@ public class EmailController {
     public ResponseEntity<String> sendTextEmail(@Valid @RequestBody EmailRequest emailRequest) {
         emailService.sendTextEmail(emailRequest);
         return ResponseEntity.ok("Email bol úspešne odoslaný.");
+    }
+
+    // Endpoint na odoslanie HTML emailu vytvoreného cez Thymeleaf šablónu.
+    @PostMapping("/send-html")
+    public ResponseEntity<String> sendHtmlEmail(@Valid @RequestBody EmailRequest emailRequest) {
+        emailService.sendHtmlEmail(emailRequest);
+        return ResponseEntity.ok("HTML email bol úspešne odoslaný.");
     }
 }
