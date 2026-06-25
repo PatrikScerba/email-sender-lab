@@ -21,12 +21,7 @@
 
 <p th:text="${message}"></p>
 
-<hr>
-
-<p>
-    S pozdravom,<br>
-    <strong>Gym Management System</strong>
-</p>
+<div th:replace="~{email/fragments/footer :: emailFooter}"></div>
 
 </body>
 </html>
