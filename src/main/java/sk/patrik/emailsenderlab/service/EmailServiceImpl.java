@@ -3,6 +3,7 @@ package sk.patrik.emailsenderlab.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -71,10 +72,14 @@ public class EmailServiceImpl implements EmailService {
             // Pomocná trieda na jednoduchšie nastavenie MIME emailu, vrátane HTML obsahu a kódovania UTF-8.
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
+            // Pridanie loga ako inline obrázku do emailu.
+            ClassPathResource logo = new ClassPathResource("static/images/email-logo.png");
+
             helper.setFrom(fromEmail);
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());
             helper.setText(htmlContent, true);
+            helper.addInline("logo", logo);
 
             // Odoslanie emailu cez nakonfigurovaný SMTP server.
             javaMailSender.send(mimeMessage);
