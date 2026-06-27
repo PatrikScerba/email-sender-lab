@@ -12,6 +12,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import sk.patrik.emailsenderlab.dto.EmailRequest;
 import org.thymeleaf.context.Context;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * Servisná implementácia zodpovedná za odosielanie emailov.
  * Táto trieda používa Spring komponent JavaMailSender, ktorý zabezpečuje
@@ -21,6 +23,7 @@ import org.thymeleaf.context.Context;
 @Service
 public class EmailServiceImpl implements EmailService {
 
+    private static final String SENDER_NAME = "Gym Management System";
     private final JavaMailSender javaMailSender;
 
     // SpringTemplateEngine sa používa na generovanie HTML obsahu emailu z Thymeleaf šablóny.
@@ -75,7 +78,7 @@ public class EmailServiceImpl implements EmailService {
             // Pridanie loga ako inline obrázku do emailu.
             ClassPathResource logo = new ClassPathResource("static/images/email-logo.png");
 
-            helper.setFrom(fromEmail);
+            helper.setFrom(fromEmail, SENDER_NAME);
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());
             helper.setText(htmlContent, true);
@@ -84,7 +87,7 @@ public class EmailServiceImpl implements EmailService {
             // Odoslanie emailu cez nakonfigurovaný SMTP server.
             javaMailSender.send(mimeMessage);
 
-        } catch (MessagingException e) {
+        } catch (MessagingException | UnsupportedEncodingException e) {
             throw new RuntimeException("Nepodarilo sa odoslať HTML email.", e);
         }
     }
