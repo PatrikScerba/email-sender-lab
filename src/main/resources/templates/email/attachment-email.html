@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Gym Management System</title>
+</head>
+<body>
+
+<h2>Gym Management System</h2>
+
+<p>Dobrý deň,</p>
+
+<p>
+    V prílohe tohto emailu nájdete svoj dokument.
+    Dokument si môžete uložiť do počítača a použiť podľa potreby.
+</p>
+
+<p th:text="${message}"></p>
+
+<div th:replace="~{email/fragments/footer :: emailFooter}"></div>
+
+</body>
+</html>
