@@ -91,4 +91,38 @@ public class EmailServiceImpl implements EmailService {
             throw new RuntimeException("Nepodarilo sa odoslať HTML email.", e);
         }
     }
+
+    // Metóda vytvorí emailovú správu s prílohou a odošle ju cez JavaMailSender.
+    @Override
+    public void sendEmailWithAttachment(EmailRequest emailRequest) {
+        try {
+            Context context = new Context();
+            context.setVariable("message", emailRequest.getMessage());
+
+            String htmlContent = templateEngine.process("email/attachment-email", context);
+
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+
+            ClassPathResource logo = new ClassPathResource("static/images/email-logo.png");
+
+            // Statická príloha načítaná z resources/static/images.
+            ClassPathResource  attachment = new ClassPathResource("static/images/EFK3.png");
+
+            helper.setFrom(fromEmail, SENDER_NAME);
+            helper.setTo(emailRequest.getTo());
+            helper.setSubject(emailRequest.getSubject());
+            helper.setText(htmlContent, true);
+            helper.addInline("logo", logo);
+            helper.addAttachment("EFK3.png", attachment);
+
+            javaMailSender.send(mimeMessage);
+
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            throw new RuntimeException("Nepodarilo sa odoslať email s prílohou.", e);
+        }
+    }
 }

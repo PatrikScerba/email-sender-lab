@@ -12,4 +12,7 @@ public interface EmailService {
 
     // Odošle HTML email.
     void sendHtmlEmail(EmailRequest emailRequest);
+
+    // Odošle email s prílohou.
+    void sendEmailWithAttachment(EmailRequest emailRequest);
 }
