@@ -35,4 +35,11 @@ public class EmailController {
         emailService.sendHtmlEmail(emailRequest);
         return ResponseEntity.ok("HTML email bol úspešne odoslaný.");
     }
+
+    // Endpoint na odoslanie emailu s prílohou.
+    @PostMapping("/send-attachment")
+    public ResponseEntity<String> sendEmailWithAttachment(@Valid @RequestBody EmailRequest emailRequest) {
+        emailService.sendEmailWithAttachment(emailRequest);
+        return ResponseEntity.ok("Email s prílohou bol úspešne odoslaný.");
+    }
 }
