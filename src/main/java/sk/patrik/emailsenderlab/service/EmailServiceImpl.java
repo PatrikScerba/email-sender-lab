@@ -60,69 +60,67 @@ public class EmailServiceImpl implements EmailService {
     // Metóda vytvorí HTML emailovú správu z Thymeleaf šablóny a odošle ju cez JavaMailSender.
     @Override
     public void sendHtmlEmail(EmailRequest emailRequest) {
-        try {
-
-            // Odovzdanie dynamických údajov do Thymeleaf šablóny.
-            Context context = new Context();
-            context.setVariable("message", emailRequest.getMessage());
-
-            // Vygenerovanie výsledného HTML obsahu zo šablóny.
-            String htmlContent = templateEngine.process("email/notification-email", context);
-
-            // Vytvorenie MIME správy pre HTML email.
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-
-            // Pomocná trieda na jednoduchšie nastavenie MIME emailu, vrátane HTML obsahu a kódovania UTF-8.
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-
-            // Pridanie loga ako inline obrázku do emailu.
-            ClassPathResource logo = new ClassPathResource("static/images/email-logo.png");
-
-            helper.setFrom(fromEmail, SENDER_NAME);
-            helper.setTo(emailRequest.getTo());
-            helper.setSubject(emailRequest.getSubject());
-            helper.setText(htmlContent, true);
-            helper.addInline("logo", logo);
-
-            // Odoslanie emailu cez nakonfigurovaný SMTP server.
-            javaMailSender.send(mimeMessage);
-
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new RuntimeException("Nepodarilo sa odoslať HTML email.", e);
-        }
+        sendHtmlEmailInternal(
+                emailRequest,
+                "email/notification-email",
+                null,
+                null,
+                "Nepodarilo sa odoslať HTML email."
+        );
     }
 
-    // Metóda vytvorí emailovú správu s prílohou a odošle ju cez JavaMailSender.
+    // Metóda pripraví statickú prílohu a odošle HTML email s prílohou.
     @Override
     public void sendEmailWithAttachment(EmailRequest emailRequest) {
+        ClassPathResource attachment =
+                new ClassPathResource("static/images/EFK3.png");
+
+        sendHtmlEmailInternal(
+                emailRequest,
+                "email/attachment-email",
+                "EFK3.png",
+                attachment,
+                "Nepodarilo sa odoslať email s prílohou."
+        );
+    }
+
+    // Interná metóda spracováva spoločnú logiku odosielania HTML emailov s voliteľnou prílohou.
+    private void sendHtmlEmailInternal(
+            EmailRequest emailRequest,
+            String templateName,
+            String attachmentName,
+            ClassPathResource attachment,
+            String errorMessage
+    ) {
         try {
             Context context = new Context();
             context.setVariable("message", emailRequest.getMessage());
 
-            String htmlContent = templateEngine.process("email/attachment-email", context);
+            String htmlContent = templateEngine.process(templateName, context);
 
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
             MimeMessageHelper helper =
                     new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-
-            ClassPathResource logo = new ClassPathResource("static/images/email-logo.png");
-
-            // Statická príloha načítaná z resources/static/images.
-            ClassPathResource  attachment = new ClassPathResource("static/images/EFK3.png");
+            ClassPathResource logo =
+                    new ClassPathResource("static/images/email-logo.png");
 
             helper.setFrom(fromEmail, SENDER_NAME);
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());
             helper.setText(htmlContent, true);
             helper.addInline("logo", logo);
-            helper.addAttachment("EFK3.png", attachment);
+
+            if (attachment != null && attachmentName != null) {
+                helper.addAttachment(attachmentName, attachment);
+            }
 
             javaMailSender.send(mimeMessage);
 
         } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new RuntimeException("Nepodarilo sa odoslať email s prílohou.", e);
+            throw new RuntimeException(errorMessage, e);
         }
     }
 }
+
