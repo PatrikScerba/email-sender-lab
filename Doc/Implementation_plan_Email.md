@@ -22,7 +22,7 @@
 - odoslanie jednoduchého textového emailu
 - test odoslania emailu
 
-### 4. [ROZPRACOVANÉ] HTML email
+### 4. [HOTOVO] HTML email
 
 - Thymeleaf šablóna
 - dynamické údaje v emaile
@@ -32,33 +32,20 @@
 - meno odosielateľa
 - test HTML emailu
 
-### 5. [PLÁN] Email s prílohou
+### 5. [HOTOVO] Email s prílohou
 
 - odoslanie emailu s prílohou
 - podpora obrázkov
 - podpora PDF súborov
 - testovanie príloh
 
-### 6. [PLÁN] Notifikačné emaily
-
-- email pre klienta
-- email pre administrátora
-- všeobecná notifikačná šablóna
-- opakovateľné emailové komponenty
-
-### 7. [PLÁN] QR notifikácie
-
-- odoslanie QR kódu emailom
-- QR obrázok ako príloha
-- QR obrázok vložený priamo do emailu
-- príprava na integráciu do Gym Management System
-
-### 8. [PLÁN] React frontend
+### 6. [ROZPRACOVANÉ] React frontend
 
 - formulár pre odoslanie emailu
 - zadanie príjemcu
 - zadanie predmetu
 - zadanie správy
 - odoslanie emailu cez REST API
+- odoslanie emailu s prílohou cez REST API
 - zobrazenie výsledku odoslania
 
