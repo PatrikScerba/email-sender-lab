@@ -1,3 +1,11 @@
+import { useState } from "react";
+import EmailTypeSelector from "../components/email/EmailTypeSelector";
+
 export default function EmailPage() {
-  return <h1>Email modul</h1>;
+  const [emailType, setEmailType] = useState("text");
+
+  return (
+    <EmailTypeSelector emailType={emailType} setEmailType={setEmailType} />
+  );
 }
+
