@@ -14,6 +14,7 @@ import sk.patrik.emailsenderlab.service.EmailService;
  */
 @RestController
 @RequestMapping("/api/emails")
+@CrossOrigin(origins = "http://localhost:5173")
 public class EmailController {
 
     private final EmailService emailService;
