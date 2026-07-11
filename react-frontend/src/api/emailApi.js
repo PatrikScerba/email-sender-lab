@@ -6,3 +6,10 @@ export async function sendTextEmail(emailData) {
     body: JSON.stringify(emailData),
   });
 }
+
+export async function sendHtmlEmail(emailData) {
+  return apiFetch("/api/emails/send-html", {
+    method: "POST",
+    body: JSON.stringify(emailData),
+  });
+}
