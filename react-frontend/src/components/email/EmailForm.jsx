@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { sendTextEmail } from "../../api/emailApi";
+import { sendTextEmail, sendHtmlEmail } from "../../api/emailApi";
 
 export default function EmailForm({ emailType }) {
   const emailTitle = {
     text: "Odoslať textový email",
+    html: "Odoslať HTML email",
   };
 
   const [emailData, setEmailData] = useState({
@@ -33,6 +34,9 @@ export default function EmailForm({ emailType }) {
     try {
       if (emailType === "text") {
         const responseMessage = await sendTextEmail(emailData);
+        setInfo(responseMessage);
+      } else if (emailType === "html") {
+        const responseMessage = await sendHtmlEmail(emailData);
         setInfo(responseMessage);
       }
     } catch (err) {
