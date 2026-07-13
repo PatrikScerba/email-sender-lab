@@ -13,3 +13,10 @@ export async function sendHtmlEmail(emailData) {
     body: JSON.stringify(emailData),
   });
 }
+
+export async function sendHtmlEmailWithAttachment(emailData) {
+  return apiFetch("/api/emails/send-attachment", {
+    method: "POST",
+    body: JSON.stringify(emailData),
+  });
+}
