@@ -4,10 +4,12 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import sk.patrik.emailsenderlab.dto.EmailRequest;
 import org.thymeleaf.context.Context;
@@ -18,7 +20,8 @@ import java.io.UnsupportedEncodingException;
  * Servisná implementácia zodpovedná za odosielanie emailov.
  * Táto trieda používa Spring komponent JavaMailSender, ktorý zabezpečuje
  * samotné odoslanie emailovej správy cez nakonfigurovaný SMTP server.
- * Pri HTML emailoch vytvára MIME správu, aby bolo možné odoslať email s HTML obsahom.
+ * Pri HTML emailoch vytvára MIME správu, ktorá podporuje HTML obsah,
+ * vložené obrázky a prílohy.
  */
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -69,18 +72,26 @@ public class EmailServiceImpl implements EmailService {
         );
     }
 
-    // Metóda pripraví statickú prílohu a odošle HTML email s prílohou.
+    // Metóda pripraví voliteľnú prílohu a odošle HTML email.
     @Override
-    public void sendEmailWithAttachment(EmailRequest emailRequest) {
-        ClassPathResource attachment =
-                new ClassPathResource("static/images/EFK3.png");
+    public void sendEmailWithAttachment(
+            EmailRequest emailRequest,
+            MultipartFile attachment
+    ) {
+        String attachmentName = null;
+        InputStreamSource attachmentSource = null;
+
+        if (attachment != null && !attachment.isEmpty()) {
+            attachmentName = attachment.getOriginalFilename();
+            attachmentSource = attachment;
+        }
 
         sendHtmlEmailInternal(
                 emailRequest,
-                "email/attachment-email",
-                "EFK3.png",
-                attachment,
-                "Nepodarilo sa odoslať email s prílohou."
+                "email/notification-email",
+                attachmentName,
+                attachmentSource,
+                "Nepodarilo sa odoslať email."
         );
     }
 
@@ -89,7 +100,7 @@ public class EmailServiceImpl implements EmailService {
             EmailRequest emailRequest,
             String templateName,
             String attachmentName,
-            ClassPathResource attachment,
+            InputStreamSource attachment,
             String errorMessage
     ) {
         try {
