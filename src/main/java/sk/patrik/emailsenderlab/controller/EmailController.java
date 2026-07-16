@@ -1,8 +1,10 @@
 package sk.patrik.emailsenderlab.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sk.patrik.emailsenderlab.dto.EmailRequest;
 import sk.patrik.emailsenderlab.service.EmailService;
 
@@ -37,10 +39,22 @@ public class EmailController {
         return ResponseEntity.ok("HTML email bol úspešne odoslaný.");
     }
 
-    // Endpoint na odoslanie emailu s prílohou.
-    @PostMapping("/send-attachment")
-    public ResponseEntity<String> sendEmailWithAttachment(@Valid @RequestBody EmailRequest emailRequest) {
-        emailService.sendEmailWithAttachment(emailRequest);
-        return ResponseEntity.ok("Email s prílohou bol úspešne odoslaný.");
+    // Endpoint na odoslanie HTML emailu s voliteľnou prílohou.
+    @PostMapping(
+            value = "/send-attachment",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<String> sendEmailWithAttachment(
+
+            // JSON údaje emailu odoslané ako samostatná časť multipart požiadavky.
+            @Valid @RequestPart("emailData") EmailRequest emailRequest,
+
+            // Voliteľný súbor vybraný používateľom vo formulári.
+            @RequestPart(value = "attachment", required = false)
+            MultipartFile attachment
+    ) {
+        emailService.sendEmailWithAttachment(emailRequest, attachment);
+
+        return ResponseEntity.ok("Email bol úspešne odoslaný.");
     }
 }
