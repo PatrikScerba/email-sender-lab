@@ -1,9 +1,11 @@
 const BASE_URL = "http://localhost:8081";
 
 export async function apiFetch(path, options = {}) {
+  const isFormData = options.body instanceof FormData;
+
   const response = await fetch(`${BASE_URL}${path}`, {
     headers: {
-      "Content-Type": "application/json",
+      ...(!isFormData && { "Content-Type": "application/json" }),
       ...(options.headers || {}),
     },
     ...options,
