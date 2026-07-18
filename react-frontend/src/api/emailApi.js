@@ -14,9 +14,22 @@ export async function sendHtmlEmail(emailData) {
   });
 }
 
-export async function sendHtmlEmailWithAttachment(emailData) {
+export async function sendHtmlEmailWithAttachment(emailData, attachment) {
+  const formData = new FormData();
+
+  formData.append(
+    "emailData",
+    new Blob([JSON.stringify(emailData)], {
+      type: "application/json",
+    })
+  );
+
+  if (attachment) {
+    formData.append("attachment", attachment);
+  }
+
   return apiFetch("/api/emails/send-attachment", {
     method: "POST",
-    body: JSON.stringify(emailData),
+    body: formData,
   });
 }
