@@ -17,6 +17,7 @@ export default function EmailForm({ emailType }) {
     subject: "",
     message: "",
   });
+  const [attachment, setAttachment] = useState(null);
 
   const [info, setInfo] = useState("");
   const [error, setError] = useState("");
@@ -28,6 +29,12 @@ export default function EmailForm({ emailType }) {
       ...emailData,
       [name]: value,
     });
+  }
+
+  function handleAttachmentChange(event) {
+    const selectedFile = event.target.files[0];
+
+    setAttachment(selectedFile || null);
   }
 
   async function handleSubmit(event) {
@@ -44,7 +51,10 @@ export default function EmailForm({ emailType }) {
         const responseMessage = await sendHtmlEmail(emailData);
         setInfo(responseMessage);
       } else if (emailType === "htmlWithAttachment") {
-        const responseMessage = await sendHtmlEmailWithAttachment(emailData);
+        const responseMessage = await sendHtmlEmailWithAttachment(
+          emailData,
+          attachment
+        );
         setInfo(responseMessage);
       }
     } catch (err) {
@@ -82,6 +92,15 @@ export default function EmailForm({ emailType }) {
           onChange={handleChange}
           style={{ marginRight: "20px" }}
         />
+
+        {emailType === "htmlWithAttachment" && (
+          <input
+            type="file"
+            name="attachment"
+            onChange={handleAttachmentChange}
+            style={{ marginRight: "20px" }}
+          />
+        )}
 
         <button style={{ marginRight: "15px" }} type="submit">
           {emailTitle[emailType]}
