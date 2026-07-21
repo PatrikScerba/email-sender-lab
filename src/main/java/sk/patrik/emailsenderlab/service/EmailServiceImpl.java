@@ -27,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 public class EmailServiceImpl implements EmailService {
 
     private static final String SENDER_NAME = "Gym Management System";
+    private static final long MAX_ATTACHMENT_SIZE = 15L * 1024 * 1024;
     private final JavaMailSender javaMailSender;
 
     // SpringTemplateEngine sa používa na generovanie HTML obsahu emailu z Thymeleaf šablóny.
@@ -82,6 +83,13 @@ public class EmailServiceImpl implements EmailService {
         InputStreamSource attachmentSource = null;
 
         if (attachment != null && !attachment.isEmpty()) {
+
+            if (attachment.getSize() > MAX_ATTACHMENT_SIZE) {
+                throw new IllegalArgumentException(
+                        "Príloha nemôže byť väčšia ako 15 MB."
+                );
+            }
+
             attachmentName = attachment.getOriginalFilename();
             attachmentSource = attachment;
         }
