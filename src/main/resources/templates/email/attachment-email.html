@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sk" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Gym Management System</title>
@@ -10,12 +10,13 @@
 
 <p>Dobrý deň,</p>
 
-<p>
-    V prílohe tohto emailu nájdete svoj dokument.
-    Dokument si môžete uložiť do počítača a použiť podľa potreby.
+<p th:if="${hasAttachment}">
+    V prílohe tohto emailu nájdete priložený súbor.
+    Súbor si môžete uložiť do zariadenia a použiť podľa potreby.
 </p>
 
-<p th:text="${message}"></p>
+<p th:if="${message != null and !message.isBlank()}"
+   th:text="${message}"></p>
 
 <div th:replace="~{email/fragments/footer :: emailFooter}"></div>
 

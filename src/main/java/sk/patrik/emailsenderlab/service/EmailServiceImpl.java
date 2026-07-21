@@ -88,10 +88,10 @@ public class EmailServiceImpl implements EmailService {
 
         sendHtmlEmailInternal(
                 emailRequest,
-                "email/notification-email",
+                "email/attachment-email",
                 attachmentName,
                 attachmentSource,
-                "Nepodarilo sa odoslať email."
+                "Nepodarilo sa odoslať email s prílohou."
         );
     }
 
@@ -103,9 +103,13 @@ public class EmailServiceImpl implements EmailService {
             InputStreamSource attachment,
             String errorMessage
     ) {
+
+        boolean hasAttachment =
+                attachment != null && attachmentName != null;
         try {
             Context context = new Context();
             context.setVariable("message", emailRequest.getMessage());
+            context.setVariable("hasAttachment", hasAttachment);
 
             String htmlContent = templateEngine.process(templateName, context);
 
@@ -123,7 +127,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setText(htmlContent, true);
             helper.addInline("logo", logo);
 
-            if (attachment != null && attachmentName != null) {
+            if (hasAttachment) {
                 helper.addAttachment(attachmentName, attachment);
             }
 
