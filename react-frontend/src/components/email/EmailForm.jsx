@@ -22,6 +22,8 @@ export default function EmailForm({ emailType }) {
   const [info, setInfo] = useState("");
   const [error, setError] = useState("");
 
+  const MAX_ATTACHMENT_SIZE = 15 * 1024 * 1024;
+
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -33,6 +35,17 @@ export default function EmailForm({ emailType }) {
 
   function handleAttachmentChange(event) {
     const selectedFile = event.target.files[0];
+
+    setError("");
+
+    if (selectedFile && selectedFile.size > MAX_ATTACHMENT_SIZE) {
+      setAttachment(null);
+      event.target.value = "";
+
+      setError("Príloha je príliš veľká. Maximálna veľkosť je 15 MB.");
+
+      return;
+    }
 
     setAttachment(selectedFile || null);
   }
@@ -51,6 +64,11 @@ export default function EmailForm({ emailType }) {
         const responseMessage = await sendHtmlEmail(emailData);
         setInfo(responseMessage);
       } else if (emailType === "htmlWithAttachment") {
+        if (attachment && attachment.size > MAX_ATTACHMENT_SIZE) {
+          setError("Príloha nemôže byť väčšia ako 15 MB.");
+          return;
+        }
+
         const responseMessage = await sendHtmlEmailWithAttachment(
           emailData,
           attachment
@@ -94,12 +112,16 @@ export default function EmailForm({ emailType }) {
         />
 
         {emailType === "htmlWithAttachment" && (
-          <input
-            type="file"
-            name="attachment"
-            onChange={handleAttachmentChange}
-            style={{ marginRight: "20px" }}
-          />
+          <div>
+            <input
+              type="file"
+              name="attachment"
+              onChange={handleAttachmentChange}
+              style={{ marginRight: "20px" }}
+            />
+
+            <small>Maximálna veľkosť prílohy je 15 MB.</small>
+          </div>
         )}
 
         <button style={{ marginRight: "15px" }} type="submit">
