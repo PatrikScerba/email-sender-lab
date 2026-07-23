@@ -24,6 +24,8 @@ export default function EmailForm({ emailType }) {
 
   const MAX_ATTACHMENT_SIZE = 15 * 1024 * 1024;
 
+  const [isSending, setIsSending] = useState(false);
+
   function handleChange(event) {
     const { name, value } = event.target;
 
@@ -55,6 +57,7 @@ export default function EmailForm({ emailType }) {
 
     setInfo("");
     setError("");
+    setIsSending(true);
 
     try {
       if (emailType === "text") {
@@ -77,6 +80,8 @@ export default function EmailForm({ emailType }) {
       }
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsSending(false);
     }
   }
 
@@ -124,8 +129,12 @@ export default function EmailForm({ emailType }) {
           </div>
         )}
 
-        <button style={{ marginRight: "15px" }} type="submit">
-          {emailTitle[emailType]}
+        <button
+          style={{ marginRight: "15px" }}
+          type="submit"
+          disabled={isSending}
+        >
+          {isSending ? "Odosielanie..." : emailTitle[emailType]}
         </button>
 
         {info && <p>{info}</p>}
