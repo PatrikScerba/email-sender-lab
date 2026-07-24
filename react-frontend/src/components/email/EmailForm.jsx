@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   sendTextEmail,
   sendHtmlEmail,
@@ -25,6 +25,7 @@ export default function EmailForm({ emailType }) {
   const MAX_ATTACHMENT_SIZE = 15 * 1024 * 1024;
 
   const [isSending, setIsSending] = useState(false);
+  const attachmentInputRef = useRef(null);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -52,6 +53,18 @@ export default function EmailForm({ emailType }) {
     setAttachment(selectedFile || null);
   }
 
+  function resetForm() {
+    setEmailData({
+      to: "",
+      subject: "",
+      message: "",
+    });
+    setAttachment(null);
+    if (attachmentInputRef.current) {
+      attachmentInputRef.current.value = "";
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -63,9 +76,11 @@ export default function EmailForm({ emailType }) {
       if (emailType === "text") {
         const responseMessage = await sendTextEmail(emailData);
         setInfo(responseMessage);
+        resetForm();
       } else if (emailType === "html") {
         const responseMessage = await sendHtmlEmail(emailData);
         setInfo(responseMessage);
+        resetForm();
       } else if (emailType === "htmlWithAttachment") {
         if (attachment && attachment.size > MAX_ATTACHMENT_SIZE) {
           setError("Príloha nemôže byť väčšia ako 15 MB.");
@@ -77,6 +92,7 @@ export default function EmailForm({ emailType }) {
           attachment
         );
         setInfo(responseMessage);
+        resetForm();
       }
     } catch (err) {
       setError(err.message);
@@ -119,6 +135,7 @@ export default function EmailForm({ emailType }) {
         {emailType === "htmlWithAttachment" && (
           <div>
             <input
+              ref={attachmentInputRef}
               type="file"
               name="attachment"
               onChange={handleAttachmentChange}
