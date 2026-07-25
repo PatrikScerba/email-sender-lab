@@ -39,7 +39,7 @@
 - podpora PDF súborov
 - testovanie príloh
 
-### 6. [ROZPRACOVANÉ] React frontend
+### 6. [HOTOVO] React frontend
 
 - formulár pre odoslanie emailu
 - zadanie príjemcu
@@ -48,4 +48,18 @@
 - odoslanie emailu cez REST API
 - odoslanie emailu s prílohou cez REST API
 - zobrazenie výsledku odoslania
+- validácia povinných polí
+- validácia maximálnej veľkosti prílohy (15 MB)
+- automatické vyčistenie formulára po úspešnom odoslaní
+- automatické vyčistenie file inputu
+- blokovanie odosielacieho tlačidla počas odosielania emailu
+- zobrazenie úspešnej a chybovej správy
+- testovanie všetkých typov emailov
+
+### 7. [ROZPRACOVANÉ] Finálne úpravy projektu
+
+- refaktoring zdrojového kódu
+- optimalizácia React komponentov
+- ladenie používateľského rozhrania (UI)
+- finálne testovanie aplikácie
 
