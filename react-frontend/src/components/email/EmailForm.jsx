@@ -70,6 +70,15 @@ export default function EmailForm({ emailType }) {
 
     setInfo("");
     setError("");
+
+    if (
+      !emailData.to.trim() ||
+      !emailData.subject.trim() ||
+      !emailData.message.trim()
+    ) {
+      setError("Vyplňte príjemcu, predmet a správu.");
+      return;
+    }
     setIsSending(true);
 
     try {
@@ -82,6 +91,11 @@ export default function EmailForm({ emailType }) {
         setInfo(responseMessage);
         resetForm();
       } else if (emailType === "htmlWithAttachment") {
+        if (!attachment) {
+          setError("Vyberte prílohu.");
+          return;
+        }
+
         if (attachment && attachment.size > MAX_ATTACHMENT_SIZE) {
           setError("Príloha nemôže byť väčšia ako 15 MB.");
           return;

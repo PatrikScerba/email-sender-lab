@@ -18,6 +18,7 @@ public class EmailRequest {
     @NotBlank(message = "Predmet emailu nesmie byť prázdny.")
     private String subject;
 
+    @NotBlank(message = "Správa emailu nesmie byť prázdna.")
     private String message;
 
     public String getTo() {
