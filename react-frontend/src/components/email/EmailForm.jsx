@@ -86,10 +86,16 @@ export default function EmailForm({ emailType }) {
         const responseMessage = await sendTextEmail(emailData);
         setInfo(responseMessage);
         resetForm();
+        setTimeout(() => {
+          setInfo("");
+        }, 4000);
       } else if (emailType === "html") {
         const responseMessage = await sendHtmlEmail(emailData);
         setInfo(responseMessage);
         resetForm();
+        setTimeout(() => {
+          setInfo("");
+        }, 4000);
       } else if (emailType === "htmlWithAttachment") {
         if (!attachment) {
           setError("Vyberte prílohu.");
@@ -107,6 +113,9 @@ export default function EmailForm({ emailType }) {
         );
         setInfo(responseMessage);
         resetForm();
+        setTimeout(() => {
+          setInfo("");
+        }, 4000);
       }
     } catch (err) {
       setError(err.message);
