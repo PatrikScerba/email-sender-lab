@@ -157,6 +157,14 @@ export default function EmailForm({ emailType }) {
             />
 
             <small>Maximálna veľkosť prílohy je 15 MB.</small>
+
+            {attachment && (
+              <p>
+                Vybraná príloha: <strong>{attachment.name}</strong>
+                {" - "}
+                {(attachment.size / (1024 * 1024)).toFixed(2)} MB
+              </p>
+            )}
           </div>
         )}
 
