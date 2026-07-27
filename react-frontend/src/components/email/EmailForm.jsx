@@ -82,41 +82,34 @@ export default function EmailForm({ emailType }) {
     setIsSending(true);
 
     try {
+      let responseMessage;
+
       if (emailType === "text") {
-        const responseMessage = await sendTextEmail(emailData);
-        setInfo(responseMessage);
-        resetForm();
-        setTimeout(() => {
-          setInfo("");
-        }, 4000);
+        responseMessage = await sendTextEmail(emailData);
       } else if (emailType === "html") {
-        const responseMessage = await sendHtmlEmail(emailData);
-        setInfo(responseMessage);
-        resetForm();
-        setTimeout(() => {
-          setInfo("");
-        }, 4000);
+        responseMessage = await sendHtmlEmail(emailData);
       } else if (emailType === "htmlWithAttachment") {
         if (!attachment) {
           setError("Vyberte prílohu.");
           return;
         }
 
-        if (attachment && attachment.size > MAX_ATTACHMENT_SIZE) {
+        if (attachment.size > MAX_ATTACHMENT_SIZE) {
           setError("Príloha nemôže byť väčšia ako 15 MB.");
           return;
         }
 
-        const responseMessage = await sendHtmlEmailWithAttachment(
+        responseMessage = await sendHtmlEmailWithAttachment(
           emailData,
           attachment
         );
-        setInfo(responseMessage);
-        resetForm();
-        setTimeout(() => {
-          setInfo("");
-        }, 4000);
       }
+      setInfo(responseMessage);
+      resetForm();
+
+      setTimeout(() => {
+        setInfo("");
+      }, 4000);
     } catch (err) {
       setError(err.message);
     } finally {
