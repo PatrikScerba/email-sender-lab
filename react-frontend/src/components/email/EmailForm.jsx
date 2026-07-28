@@ -18,6 +18,7 @@ export default function EmailForm({ emailType }) {
     message: "",
   });
   const [attachment, setAttachment] = useState(null);
+  const [attachmentPreview, setAttachmentPreview] = useState(null);
 
   const [info, setInfo] = useState("");
   const [error, setError] = useState("");
@@ -36,23 +37,29 @@ export default function EmailForm({ emailType }) {
     });
   }
 
-  function handleAttachmentChange(event) {
-    const selectedFile = event.target.files[0];
+function handleAttachmentChange(event) {
+  const selectedFile = event.target.files[0];
 
-    setError("");
+  setError("");
 
-    if (selectedFile && selectedFile.size > MAX_ATTACHMENT_SIZE) {
-      setAttachment(null);
-      event.target.value = "";
+  if (selectedFile && selectedFile.size > MAX_ATTACHMENT_SIZE) {
+    setAttachment(null);
+    setAttachmentPreview(null);
+    event.target.value = "";
 
-      setError("Príloha je príliš veľká. Maximálna veľkosť je 15 MB.");
+    setError("Príloha je príliš veľká. Maximálna veľkosť je 15 MB.");
 
-      return;
-    }
-
-    setAttachment(selectedFile || null);
+    return;
   }
 
+  setAttachment(selectedFile || null);
+
+  if (selectedFile && selectedFile.type.startsWith("image/")) {
+    setAttachmentPreview(URL.createObjectURL(selectedFile));
+  } else {
+    setAttachmentPreview(null);
+  }
+}
   function resetForm() {
     setEmailData({
       to: "",
@@ -148,28 +155,37 @@ export default function EmailForm({ emailType }) {
           style={{ marginRight: "20px" }}
         />
 
-        {emailType === "htmlWithAttachment" && (
-          <div>
-            <input
-              ref={attachmentInputRef}
-              type="file"
-              name="attachment"
-              onChange={handleAttachmentChange}
-              style={{ marginRight: "20px" }}
-            />
+       {emailType === "htmlWithAttachment" && (
+         <div>
+           <input
+             ref={attachmentInputRef}
+             type="file"
+             name="attachment"
+             onChange={handleAttachmentChange}
+             style={{ marginRight: "20px" }}
+           />
 
-            <small>Maximálna veľkosť prílohy je 15 MB.</small>
+           <small>Maximálna veľkosť prílohy je 15 MB.</small>
 
-            {attachment && (
-              <p>
-                Vybraná príloha: <strong>{attachment.name}</strong>
-                {" - "}
-                {(attachment.size / (1024 * 1024)).toFixed(2)} MB
-              </p>
-            )}
-          </div>
-        )}
+           {attachment && (
+             <div>
+               <p>
+                 Vybraná príloha: <strong>{attachment.name}</strong>
+                 {" - "}
+                 {(attachment.size / (1024 * 1024)).toFixed(2)} MB
+               </p>
 
+               {attachmentPreview && (
+                 <img
+                   src={attachmentPreview}
+                   alt="Náhľad vybranej prílohy"
+                   width="180"
+                 />
+               )}
+             </div>
+           )}
+         </div>
+       )}
         <button
           style={{ marginRight: "15px" }}
           type="submit"
