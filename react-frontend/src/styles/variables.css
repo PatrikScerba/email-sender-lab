@@ -1,18 +1,9 @@
 :root {
-  font-family: Inter, Arial, Helvetica, sans-serif;
-  color: #f5f7fb;
-  background-color: #020914;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
   /* Farby pozadia */
   --color-background: #020914;
   --color-background-light: #061426;
 
-  /* Povrchy a karty */
+  /* Povrchy */
   --color-surface: #07182c;
   --color-surface-light: #0b213b;
 
@@ -20,7 +11,7 @@
   --color-border: #234566;
   --color-border-focus: #168dff;
 
-  /* Hlavná modrá farba */
+  /* Primárne farby */
   --color-primary: #078dff;
   --color-primary-light: #12b8ff;
   --color-primary-hover: #1ca5ff;
@@ -48,43 +39,3 @@
   /* Tiene */
   --shadow-card: 0 24px 60px rgba(0, 0, 0, 0.35);
 }
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  min-width: 320px;
-  min-height: 100%;
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-
-  background:
-    radial-gradient(
-      circle at top,
-      var(--color-background-light) 0%,
-      var(--color-background) 55%
-    );
-
-  color: var(--color-text);
-}
-
-button,
-input,
-textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
