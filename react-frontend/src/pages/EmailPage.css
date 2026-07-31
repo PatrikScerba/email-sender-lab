@@ -1,0 +1,9 @@
+.email-page {
+  min-height: 100vh;
+  padding: 32px 24px 48px;
+}
+
+.email-page__content {
+  width: min(1400px, 100%);
+  margin: 0 auto;
+}
