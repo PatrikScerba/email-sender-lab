@@ -1,0 +1,63 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: var(--space-xl);
+}
+
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-large);
+}
+
+.app-header__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 88px;
+  height: 88px;
+
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-large);
+
+  background: linear-gradient(135deg, #0b223d, #071423);
+
+  font-size: 42px;
+}
+
+.app-header__text h1 {
+  margin: 0;
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.app-header__text span {
+  color: var(--color-primary);
+}
+
+.app-header__text p {
+  margin: 8px 0 0;
+
+  color: var(--color-text-muted);
+}
+
+.app-header__project {
+  text-align: right;
+}
+
+.app-header__project h2 {
+  margin: 0;
+
+  font-size: 20px;
+}
+
+.app-header__project span {
+  color: var(--color-primary);
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
