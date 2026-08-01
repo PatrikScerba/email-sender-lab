@@ -12,9 +12,14 @@ export default function EmailPage() {
       <section className="email-page__content">
         <AppHeader />
 
-        <EmailTypeSelector emailType={emailType} setEmailType={setEmailType} />
+        <section className="email-card">
+          <EmailTypeSelector
+            emailType={emailType}
+            setEmailType={setEmailType}
+          />
 
-        <EmailForm emailType={emailType} />
+          <EmailForm emailType={emailType} />
+        </section>
       </section>
     </main>
   );

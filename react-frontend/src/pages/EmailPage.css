@@ -7,3 +7,16 @@
   width: min(1400px, 100%);
   margin: 0 auto;
 }
+
+.email-card {
+  min-height: 620px;
+
+  padding: var(--space-xl) var(--space-xl) 48px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+
+  background: rgba(7, 24, 44, 0.88);
+
+  box-shadow: var(--shadow-card);
+}
