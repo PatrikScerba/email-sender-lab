@@ -4,6 +4,7 @@ import {
   sendHtmlEmail,
   sendHtmlEmailWithAttachment,
 } from "../../api/emailApi";
+import "./EmailForm.css";
 
 export default function EmailForm({ emailType }) {
   const emailTitle = {
@@ -125,35 +126,53 @@ function handleAttachmentChange(event) {
   }
 
   return (
-    <div>
-      <h2>{emailTitle[emailType]}</h2>
+    <div className="email-form">
+      <h2 className="email-form__title">{emailTitle[emailType]}</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          style={{ marginRight: "20px" }}
-          type="email"
-          name="to"
-          placeholder="Príjemca"
-          value={emailData.to}
-          onChange={handleChange}
-        />
+      <form className="email-form__form" onSubmit={handleSubmit}>
+        <div className="email-form__group">
+          <label className="email-form__label" htmlFor="to">
+            Komu
+          </label>
+          <input
+            className="email-form__input"
+            type="email"
+            name="to"
+            placeholder="Príjemca"
+            value={emailData.to}
+            onChange={handleChange}
+          />
+        </div>
 
-        <input
-          type="text"
-          name="subject"
-          placeholder="Predmet"
-          value={emailData.subject}
-          onChange={handleChange}
-          style={{ marginRight: "20px" }}
-        />
+        <div className="email-form__group">
+          <label className="email-form__label" htmlFor="subject">
+            Predmet
+          </label>
+          <input
+            className="email-form__input"
+            id="subject"
+            type="text"
+            name="subject"
+            placeholder="Predmet"
+            value={emailData.subject}
+            onChange={handleChange}
+          />
+        </div>
 
-        <textarea
-          name="message"
-          placeholder="Správa"
-          value={emailData.message}
-          onChange={handleChange}
-          style={{ marginRight: "20px" }}
-        />
+        <div className="email-form__group">
+          <label className="email-form__label" htmlFor="message">
+            Správa
+          </label>
+
+          <textarea
+            className="email-form__textarea"
+            id="message"
+            name="message"
+            placeholder="Správa"
+            value={emailData.message}
+            onChange={handleChange}
+          />
+        </div>
 
        {emailType === "htmlWithAttachment" && (
          <div>

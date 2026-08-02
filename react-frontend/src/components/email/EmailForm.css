@@ -1,0 +1,35 @@
+.email-form__title {
+  margin: 0 0 var(--space-large);
+
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  color: var(--color-text);
+}
+
+.email-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.email-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.email-form__label {
+  font-weight: 600;
+}
+
+.email-form__input,
+.email-form__textarea {
+  width: 100%;
+}
+
+.email-form__textarea {
+  min-height: 180px;
+  resize: vertical;
+}
