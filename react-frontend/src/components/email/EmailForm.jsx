@@ -136,6 +136,7 @@ function handleAttachmentChange(event) {
           </label>
           <input
             className="email-form__input"
+            id="to"
             type="email"
             name="to"
             placeholder="Príjemca"

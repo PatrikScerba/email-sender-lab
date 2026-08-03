@@ -27,9 +27,45 @@
 .email-form__input,
 .email-form__textarea {
   width: 100%;
+  padding: 0.9rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  font-size: 1rem;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.email-form__textarea {
+  min-height: 220px;
+  resize: vertical;
+  line-height: 1.6;
 }
 
-.email-form__textarea {
-  min-height: 180px;
-  resize: vertical;
+.email-form__input:hover,
+.email-form__textarea:hover {
+  border-color: var(--color-border-focus);
+}
+
+.email-form__input:focus,
+.email-form__textarea:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgba(22, 141, 255, 0.22);
+}
+
+.email-form__input:-webkit-autofill,
+.email-form__input:-webkit-autofill:hover,
+.email-form__input:-webkit-autofill:focus,
+.email-form__textarea:-webkit-autofill,
+.email-form__textarea:-webkit-autofill:hover,
+.email-form__textarea:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-text);
+  -webkit-box-shadow: 0 0 0 1000px var(--color-surface) inset;
+  caret-color: var(--color-text);
 }
