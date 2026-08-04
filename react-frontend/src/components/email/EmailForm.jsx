@@ -175,25 +175,35 @@ function handleAttachmentChange(event) {
           />
         </div>
 
-       {emailType === "htmlWithAttachment" && (
-         <div>
-           <input
-             ref={attachmentInputRef}
-             type="file"
-             name="attachment"
-             onChange={handleAttachmentChange}
-             style={{ marginRight: "20px" }}
-           />
+        {emailType === "htmlWithAttachment" && (
+          <div className="email-form__attachment">
+            <label
+              className="email-form__attachment-label"
+              htmlFor="attachment"
+            >
+              Príloha
+            </label>
 
-           <small>Maximálna veľkosť prílohy je 15 MB.</small>
+            <input
+              className="email-form__attachment-input"
+              ref={attachmentInputRef}
+              id="attachment"
+              type="file"
+              name="attachment"
+              onChange={handleAttachmentChange}
+            />
 
-           {attachment && (
-             <div>
-               <p>
-                 Vybraná príloha: <strong>{attachment.name}</strong>
-                 {" - "}
-                 {(attachment.size / (1024 * 1024)).toFixed(2)} MB
-               </p>
+            <small className="email-form__attachment-info">
+              Maximálna veľkosť prílohy je 15 MB.
+            </small>
+
+            {attachment && (
+              <div className="email-form__attachment-selected">
+                <p className="email-form__attachment-name">
+                  Vybraná príloha: <strong>{attachment.name}</strong>
+                  {" – "}
+                  {(attachment.size / (1024 * 1024)).toFixed(2)} MB
+                </p>
 
                {attachmentPreview && (
                  <img

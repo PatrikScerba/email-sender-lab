@@ -107,3 +107,30 @@
   cursor: not-allowed;
   transform: none;
 }
+
+.email-form__attachment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.email-form__attachment-label {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.email-form__attachment-input {
+  color: var(--color-text-muted);
+
+  font-size: 0.95rem;
+}
+
+.email-form__attachment-info {
+  color: var(--color-text-muted);
+}
+
+.email-form__attachment-selected {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
