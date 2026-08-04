@@ -207,7 +207,7 @@ function handleAttachmentChange(event) {
          </div>
        )}
         <button
-          style={{ marginRight: "15px" }}
+          className="email-form__button"
           type="submit"
           disabled={isSending}
         >
