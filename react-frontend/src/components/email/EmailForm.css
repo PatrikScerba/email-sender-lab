@@ -125,6 +125,34 @@
   font-size: 0.95rem;
 }
 
+.email-form__attachment-input::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.75rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+
+  background-color: var(--color-surface-light);
+  color: var(--color-text);
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.email-form__attachment-input::file-selector-button:hover {
+  border-color: var(--color-border-focus);
+  background-color: var(--color-primary-hover);
+
+  transform: translateY(-1px);
+}
+
 .email-form__attachment-info {
   color: var(--color-text-muted);
 }
