@@ -38,29 +38,39 @@ export default function EmailForm({ emailType }) {
     });
   }
 
-function handleAttachmentChange(event) {
-  const selectedFile = event.target.files[0];
-
-  setError("");
-
-  if (selectedFile && selectedFile.size > MAX_ATTACHMENT_SIZE) {
+  function handleRemoveAttachment() {
     setAttachment(null);
     setAttachmentPreview(null);
-    event.target.value = "";
+    setError("");
 
-    setError("Príloha je príliš veľká. Maximálna veľkosť je 15 MB.");
-
-    return;
+    if (attachmentInputRef.current) {
+      attachmentInputRef.current.value = "";
+    }
   }
 
-  setAttachment(selectedFile || null);
+  function handleAttachmentChange(event) {
+    const selectedFile = event.target.files[0];
 
-  if (selectedFile && selectedFile.type.startsWith("image/")) {
-    setAttachmentPreview(URL.createObjectURL(selectedFile));
-  } else {
-    setAttachmentPreview(null);
+    setError("");
+
+    if (selectedFile && selectedFile.size > MAX_ATTACHMENT_SIZE) {
+      setAttachment(null);
+      setAttachmentPreview(null);
+      event.target.value = "";
+
+      setError("Príloha je príliš veľká. Maximálna veľkosť je 15 MB.");
+
+      return;
+    }
+
+    setAttachment(selectedFile || null);
+
+    if (selectedFile && selectedFile.type.startsWith("image/")) {
+      setAttachmentPreview(URL.createObjectURL(selectedFile));
+    } else {
+      setAttachmentPreview(null);
+    }
   }
-}
   function resetForm() {
     setEmailData({
       to: "",
@@ -68,6 +78,8 @@ function handleAttachmentChange(event) {
       message: "",
     });
     setAttachment(null);
+    setAttachmentPreview(null);
+
     if (attachmentInputRef.current) {
       attachmentInputRef.current.value = "";
     }
@@ -205,17 +217,25 @@ function handleAttachmentChange(event) {
                   {(attachment.size / (1024 * 1024)).toFixed(2)} MB
                 </p>
 
-               {attachmentPreview && (
-                 <img
-                   src={attachmentPreview}
-                   alt="Náhľad vybranej prílohy"
-                   width="180"
-                 />
-               )}
-             </div>
-           )}
-         </div>
-       )}
+                <button
+                  className="email-form__button"
+                  type="button"
+                  onClick={handleRemoveAttachment}
+                >
+                  Zrušiť výber prílohy
+                </button>
+
+                {attachmentPreview && (
+                  <img
+                    src={attachmentPreview}
+                    alt="Náhľad vybranej prílohy"
+                    width="180"
+                  />
+                )}
+              </div>
+            )}
+          </div>
+        )}
         <button
           className="email-form__button"
           type="submit"
