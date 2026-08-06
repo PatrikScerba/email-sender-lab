@@ -196,46 +196,63 @@ export default function EmailForm({ emailType }) {
               Príloha
             </label>
 
-            <input
-              className="email-form__attachment-input"
-              ref={attachmentInputRef}
-              id="attachment"
-              type="file"
-              name="attachment"
-              onChange={handleAttachmentChange}
-            />
+            <div className="email-form__attachment-card">
+              <div className="email-form__attachment-controls">
+                <input
+                  className="email-form__attachment-input"
+                  ref={attachmentInputRef}
+                  id="attachment"
+                  type="file"
+                  name="attachment"
+                  onChange={handleAttachmentChange}
+                />
 
-            <small className="email-form__attachment-info">
-              Maximálna veľkosť prílohy je 15 MB.
-            </small>
+                <small className="email-form__attachment-info">
+                  Maximálna veľkosť prílohy je 15 MB.
+                </small>
 
-            {attachment && (
-              <div className="email-form__attachment-selected">
-                <p className="email-form__attachment-name">
-                  Vybraná príloha: <strong>{attachment.name}</strong>
-                  {" – "}
-                  {(attachment.size / (1024 * 1024)).toFixed(2)} MB
-                </p>
+                {attachment && (
+                  <div className="email-form__attachment-selected">
+                    <p className="email-form__attachment-name">
+                      Vybraná príloha: <strong>{attachment.name}</strong>
+                      {" – "}
+                      {(attachment.size / (1024 * 1024)).toFixed(2)} MB
+                    </p>
 
-                <button
-                  className="email-form__button"
-                  type="button"
-                  onClick={handleRemoveAttachment}
-                >
-                  Zrušiť výber prílohy
-                </button>
-
-                {attachmentPreview && (
-                  <img
-                    src={attachmentPreview}
-                    alt="Náhľad vybranej prílohy"
-                    width="180"
-                  />
+                    <button
+                      className="email-form__button"
+                      type="button"
+                      onClick={handleRemoveAttachment}
+                    >
+                      Zrušiť výber prílohy
+                    </button>
+                  </div>
                 )}
               </div>
-            )}
+
+              <div className="email-form__attachment-preview">
+                <h3 className="email-form__attachment-preview-title">
+                  Náhľad prílohy
+                </h3>
+
+                <div className="email-form__attachment-preview-content">
+                  {attachmentPreview ? (
+                    <img
+                      className="email-form__attachment-preview-image"
+                      src={attachmentPreview}
+                      alt="Náhľad vybranej prílohy"
+                    />
+                  ) : (
+                    <p className="email-form__attachment-preview-placeholder">
+                      Náhľad prílohy sa zobrazí po výbere.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         )}
+
         <button
           className="email-form__button"
           type="submit"
