@@ -189,15 +189,9 @@ export default function EmailForm({ emailType }) {
 
         {emailType === "htmlWithAttachment" && (
           <div className="email-form__attachment">
-            <label
-              className="email-form__attachment-label"
-              htmlFor="attachment"
-            >
-              Príloha
-            </label>
-
             <div className="email-form__attachment-card">
               <div className="email-form__attachment-controls">
+                <h3 className="email-form__attachment-title">Príloha</h3>
                 <input
                   className="email-form__attachment-input"
                   ref={attachmentInputRef}
@@ -231,9 +225,7 @@ export default function EmailForm({ emailType }) {
               </div>
 
               <div className="email-form__attachment-preview">
-                <h3 className="email-form__attachment-preview-title">
-                  Náhľad prílohy
-                </h3>
+                <h3 className="email-form__attachment-title">Náhľad prílohy</h3>
 
                 <div className="email-form__attachment-preview-content">
                   {attachmentPreview ? (
