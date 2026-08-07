@@ -191,7 +191,9 @@ export default function EmailForm({ emailType }) {
           <div className="email-form__attachment">
             <div className="email-form__attachment-card">
               <div className="email-form__attachment-controls">
-                <h3 className="email-form__attachment-title">Príloha</h3>
+                  <h3 className="email-form__attachment-title">
+                  Príloha
+                  </h3>
                 <input
                   className="email-form__attachment-input"
                   ref={attachmentInputRef}
@@ -207,25 +209,33 @@ export default function EmailForm({ emailType }) {
 
                 {attachment && (
                   <div className="email-form__attachment-selected">
-                    <p className="email-form__attachment-name">
-                      Vybraná príloha: <strong>{attachment.name}</strong>
-                      {" – "}
-                      {(attachment.size / (1024 * 1024)).toFixed(2)} MB
-                    </p>
+                    <div className="email-form__attachment-details">
+                      <strong className="email-form__attachment-name">
+                        {attachment.name}
+                      </strong>
+                      <span className="email-form__attachment-size">
+                        {(attachment.size / (1024 * 1024)).toFixed(2)} MB
+                      </span>
+                    </div>
 
                     <button
-                      className="email-form__button"
+                      className="email-form__attachment-remove"
+
                       type="button"
                       onClick={handleRemoveAttachment}
+                      aria-label="Zrušiť výber prílohy"
+                      title="Zrušiť výber prílohy"
                     >
-                      Zrušiť výber prílohy
+                      ×
                     </button>
                   </div>
                 )}
               </div>
 
               <div className="email-form__attachment-preview">
-                <h3 className="email-form__attachment-title">Náhľad prílohy</h3>
+                <h3 className="email-form__attachment-title">
+                  Náhľad prílohy
+                </h3>
 
                 <div className="email-form__attachment-preview-content">
                   {attachmentPreview ? (
