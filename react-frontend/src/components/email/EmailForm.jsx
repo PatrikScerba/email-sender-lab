@@ -28,6 +28,7 @@ export default function EmailForm({ emailType }) {
 
   const [isSending, setIsSending] = useState(false);
   const attachmentInputRef = useRef(null);
+  const [attachmentStatus, setAttachmentStatus] = useState("");
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -41,6 +42,7 @@ export default function EmailForm({ emailType }) {
   function handleRemoveAttachment() {
     setAttachment(null);
     setAttachmentPreview(null);
+    setAttachmentStatus("");
     setError("");
 
     if (attachmentInputRef.current) {
@@ -52,18 +54,23 @@ export default function EmailForm({ emailType }) {
     const selectedFile = event.target.files[0];
 
     setError("");
+    setAttachmentStatus("");
 
     if (selectedFile && selectedFile.size > MAX_ATTACHMENT_SIZE) {
       setAttachment(null);
       setAttachmentPreview(null);
       event.target.value = "";
 
-      setError("Príloha je príliš veľká. Maximálna veľkosť je 15 MB.");
+      setAttachmentStatus("error");
 
       return;
     }
 
     setAttachment(selectedFile || null);
+
+    if (selectedFile) {
+      setAttachmentStatus("success");
+    }
 
     if (selectedFile && selectedFile.type.startsWith("image/")) {
       setAttachmentPreview(URL.createObjectURL(selectedFile));
@@ -79,6 +86,7 @@ export default function EmailForm({ emailType }) {
     });
     setAttachment(null);
     setAttachmentPreview(null);
+    setAttachmentStatus("");
 
     if (attachmentInputRef.current) {
       attachmentInputRef.current.value = "";
@@ -191,9 +199,7 @@ export default function EmailForm({ emailType }) {
           <div className="email-form__attachment">
             <div className="email-form__attachment-card">
               <div className="email-form__attachment-controls">
-                  <h3 className="email-form__attachment-title">
-                  Príloha
-                  </h3>
+                <h3 className="email-form__attachment-title">Príloha</h3>
                 <input
                   className="email-form__attachment-input"
                   ref={attachmentInputRef}
@@ -230,12 +236,30 @@ export default function EmailForm({ emailType }) {
                     </button>
                   </div>
                 )}
+
+                {attachmentStatus === "success" && (
+                  <div className="email-form__attachment-status email-form__attachment-status--success">
+                    <span className="email-form__attachment-status-icon">
+                      ✓
+                    </span>
+
+                    <span>Príloha bola úspešne načítaná.</span>
+                  </div>
+                )}
+
+                {attachmentStatus === "error" && (
+                  <div className="email-form__attachment-status email-form__attachment-status--error">
+                    <span className="email-form__attachment-status-icon">
+                      !
+                    </span>
+
+                    <span>Príloha prekračuje maximálnu veľkosť 15 MB.</span>
+                  </div>
+                )}
               </div>
 
               <div className="email-form__attachment-preview">
-                <h3 className="email-form__attachment-title">
-                  Náhľad prílohy
-                </h3>
+                <h3 className="email-form__attachment-title">Náhľad prílohy</h3>
 
                 <div className="email-form__attachment-preview-content">
                   {attachmentPreview ? (
