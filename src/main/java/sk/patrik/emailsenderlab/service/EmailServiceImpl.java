@@ -4,7 +4,6 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,6 +14,7 @@ import sk.patrik.emailsenderlab.dto.EmailRequest;
 import org.thymeleaf.context.Context;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * Servisná implementácia zodpovedná za odosielanie emailov.
@@ -68,52 +68,47 @@ public class EmailServiceImpl implements EmailService {
                 emailRequest,
                 "email/notification-email",
                 null,
-                null,
                 "Nepodarilo sa odoslať HTML email."
         );
     }
 
-    // Metóda pripraví voliteľnú prílohu a odošle HTML email.
+    // Metóda pripraví voliteľné prílohy a odošle HTML email.
     @Override
-    public void sendEmailWithAttachment(
+    public void sendEmailWithAttachments(
             EmailRequest emailRequest,
-            MultipartFile attachment
+            List<MultipartFile> attachments
     ) {
-        String attachmentName = null;
-        InputStreamSource attachmentSource = null;
 
-        if (attachment != null && !attachment.isEmpty()) {
+        if (attachments != null && !attachments.isEmpty()) {
 
-            if (attachment.getSize() > MAX_ATTACHMENT_SIZE) {
-                throw new IllegalArgumentException(
-                        "Príloha nemôže byť väčšia ako 15 MB."
-                );
+            for (MultipartFile attachment : attachments) {
+
+                if (attachment.getSize() > MAX_ATTACHMENT_SIZE) {
+                    throw new IllegalArgumentException(
+                            "Príloha nemôže byť väčšia ako 15 MB."
+                    );
+                }
             }
-
-            attachmentName = attachment.getOriginalFilename();
-            attachmentSource = attachment;
         }
 
         sendHtmlEmailInternal(
                 emailRequest,
                 "email/attachment-email",
-                attachmentName,
-                attachmentSource,
+                attachments,
                 "Nepodarilo sa odoslať email s prílohou."
         );
     }
 
-    // Interná metóda spracováva spoločnú logiku odosielania HTML emailov s voliteľnou prílohou.
+    // Interná metóda spracováva spoločnú logiku odosielania HTML emailov s voliteľnými prílohami.
     private void sendHtmlEmailInternal(
             EmailRequest emailRequest,
             String templateName,
-            String attachmentName,
-            InputStreamSource attachment,
+            List<MultipartFile> attachments,
             String errorMessage
     ) {
 
         boolean hasAttachment =
-                attachment != null && attachmentName != null;
+                attachments != null && !attachments.isEmpty();
         try {
             Context context = new Context();
             context.setVariable("message", emailRequest.getMessage());
@@ -136,7 +131,20 @@ public class EmailServiceImpl implements EmailService {
             helper.addInline("logo", logo);
 
             if (hasAttachment) {
-                helper.addAttachment(attachmentName, attachment);
+
+                for (MultipartFile attachment : attachments) {
+
+                    String attachmentName = attachment.getOriginalFilename();
+
+                    if (attachmentName == null || attachmentName.isBlank()) {
+                        attachmentName = "attachment";
+                    }
+
+                    helper.addAttachment(
+                            attachmentName,
+                            attachment
+                    );
+                }
             }
 
             javaMailSender.send(mimeMessage);
