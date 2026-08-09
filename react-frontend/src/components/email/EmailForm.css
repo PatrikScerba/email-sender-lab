@@ -317,3 +317,53 @@
   outline: none;
   box-shadow: 0 0 0 3px rgba(255, 95, 109, 0.2);
 }
+
+.email-form__attachment-status-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  color: var(--color-background);
+
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.email-form__attachment-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+
+  padding: 0.75rem 1rem;
+
+  border: 1px solid;
+  border-radius: var(--radius-small);
+
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.email-form__attachment-status--success {
+  .email-form__attachment-status-icon {
+    background-color: var(--color-success);
+  }
+
+  border-color: rgba(20, 217, 138, 0.25);
+  background-color: rgba(20, 217, 138, 0.1);
+  color: var(--color-success);
+}
+
+.email-form__attachment-status--error {
+  .email-form__attachment-status-icon {
+    background-color: var(--color-error);
+  }
+
+  border-color: rgba(255, 95, 109, 0.3);
+  background-color: rgba(255, 95, 109, 0.1);
+  color: var(--color-error);
+}
