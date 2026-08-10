@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 import sk.patrik.emailsenderlab.dto.EmailRequest;
 import sk.patrik.emailsenderlab.service.EmailService;
 
+import java.util.List;
+
 /**
  * Controller pre odosielanie emailov.
  * Zabezpečuje prijatie požiadavky na odoslanie emailu,
@@ -50,10 +52,10 @@ public class EmailController {
             @Valid @RequestPart("emailData") EmailRequest emailRequest,
 
             // Voliteľný súbor vybraný používateľom vo formulári.
-            @RequestPart(value = "attachment", required = false)
-            MultipartFile attachment
+            @RequestPart(value = "attachments", required = false)
+            List<MultipartFile> attachments
     ) {
-        emailService.sendEmailWithAttachment(emailRequest, attachment);
+        emailService.sendEmailWithAttachments(emailRequest, attachments);
 
         return ResponseEntity.ok("Email bol úspešne odoslaný.");
     }
