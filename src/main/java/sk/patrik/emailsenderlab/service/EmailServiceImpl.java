@@ -27,7 +27,7 @@ import java.util.List;
 public class EmailServiceImpl implements EmailService {
 
     private static final String SENDER_NAME = "Gym Management System";
-    private static final long MAX_ATTACHMENT_SIZE = 15L * 1024 * 1024;
+    private static final long MAX_ATTACHMENT_SIZE = 25L * 1024 * 1024;
     private final JavaMailSender javaMailSender;
 
     // SpringTemplateEngine sa používa na generovanie HTML obsahu emailu z Thymeleaf šablóny.
@@ -81,13 +81,16 @@ public class EmailServiceImpl implements EmailService {
 
         if (attachments != null && !attachments.isEmpty()) {
 
-            for (MultipartFile attachment : attachments) {
+            long totalAttachmentsSize =0;
 
-                if (attachment.getSize() > MAX_ATTACHMENT_SIZE) {
-                    throw new IllegalArgumentException(
-                            "Príloha nemôže byť väčšia ako 15 MB."
-                    );
-                }
+            for (MultipartFile attachment:attachments){
+                totalAttachmentsSize += attachment.getSize();
+            }
+            if (totalAttachmentsSize > MAX_ATTACHMENT_SIZE){
+
+                throw  new IllegalArgumentException(
+                        "Celková veľkosť príloh nemôže byť väčšia ako 25 MB."
+                );
             }
         }
 
