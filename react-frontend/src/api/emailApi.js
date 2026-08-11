@@ -14,7 +14,7 @@ export async function sendHtmlEmail(emailData) {
   });
 }
 
-export async function sendHtmlEmailWithAttachment(emailData, attachment) {
+export async function sendHtmlEmailWithAttachment(emailData, attachments) {
   const formData = new FormData();
 
   formData.append(
@@ -24,9 +24,9 @@ export async function sendHtmlEmailWithAttachment(emailData, attachment) {
     })
   );
 
-  if (attachment) {
-    formData.append("attachment", attachment);
-  }
+  attachments.forEach((attachment) => {
+    formData.append("attachments", attachment);
+  });
 
   return apiFetch("/api/emails/send-attachment", {
     method: "POST",
