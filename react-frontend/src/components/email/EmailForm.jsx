@@ -18,13 +18,13 @@ export default function EmailForm({ emailType }) {
     subject: "",
     message: "",
   });
-  const [attachment, setAttachment] = useState(null);
+  const [attachments, setAttachments] = useState([]);
   const [attachmentPreview, setAttachmentPreview] = useState(null);
 
   const [info, setInfo] = useState("");
   const [error, setError] = useState("");
 
-  const MAX_ATTACHMENT_SIZE = 15 * 1024 * 1024;
+  const MAX_ATTACHMENTS_SIZE = 25 * 1024 * 1024;
 
   const [isSending, setIsSending] = useState(false);
   const attachmentInputRef = useRef(null);
@@ -39,9 +39,11 @@ export default function EmailForm({ emailType }) {
     });
   }
 
-  function handleRemoveAttachment() {
-    setAttachment(null);
-    setAttachmentPreview(null);
+  function handleRemoveAttachment(indexToRemove) {
+    setAttachments((currentAttachments) =>
+      currentAttachments.filter((_, index) => index !== indexToRemove)
+    );
+
     setAttachmentStatus("");
     setError("");
 
@@ -51,32 +53,45 @@ export default function EmailForm({ emailType }) {
   }
 
   function handleAttachmentChange(event) {
-    const selectedFile = event.target.files[0];
+    const selectedFiles = Array.from(event.target.files);
 
     setError("");
     setAttachmentStatus("");
 
-    if (selectedFile && selectedFile.size > MAX_ATTACHMENT_SIZE) {
-      setAttachment(null);
-      setAttachmentPreview(null);
-      event.target.value = "";
+    const currentSize = attachments.reduce((sum, file) => sum + file.size, 0);
 
+    const selectedSize = selectedFiles.reduce(
+      (sum, file) => sum + file.size,
+      0
+    );
+
+    const totalSize = currentSize + selectedSize;
+
+    if (totalSize > MAX_ATTACHMENTS_SIZE) {
+      event.target.value = "";
       setAttachmentStatus("error");
 
       return;
     }
 
-    setAttachment(selectedFile || null);
+    setAttachments((currentAttachments) => [
+      ...currentAttachments,
+      ...selectedFiles,
+    ]);
 
-    if (selectedFile) {
+    if (selectedFiles.length > 0) {
       setAttachmentStatus("success");
     }
+
+    const selectedFile = selectedFiles[0];
 
     if (selectedFile && selectedFile.type.startsWith("image/")) {
       setAttachmentPreview(URL.createObjectURL(selectedFile));
     } else {
       setAttachmentPreview(null);
     }
+
+    event.target.value = "";
   }
   function resetForm() {
     setEmailData({
@@ -84,7 +99,7 @@ export default function EmailForm({ emailType }) {
       subject: "",
       message: "",
     });
-    setAttachment(null);
+    setAttachments([]);
     setAttachmentPreview(null);
     setAttachmentStatus("");
 
@@ -117,19 +132,21 @@ export default function EmailForm({ emailType }) {
       } else if (emailType === "html") {
         responseMessage = await sendHtmlEmail(emailData);
       } else if (emailType === "htmlWithAttachment") {
-        if (!attachment) {
-          setError("Vyberte prílohu.");
+        if (attachments.length === 0) {
+          setError("Vyberte aspoň jednu prílohu.");
           return;
         }
 
-        if (attachment.size > MAX_ATTACHMENT_SIZE) {
-          setError("Príloha nemôže byť väčšia ako 15 MB.");
+        const totalSize = attachments.reduce((sum, file) => sum + file.size, 0);
+
+        if (totalSize > MAX_ATTACHMENTS_SIZE) {
+          setError("Celková veľkosť príloh nemôže byť väčšia ako 25 MB.");
           return;
         }
 
         responseMessage = await sendHtmlEmailWithAttachment(
           emailData,
-          attachment
+          attachments
         );
       }
       setInfo(responseMessage);
@@ -203,37 +220,45 @@ export default function EmailForm({ emailType }) {
                 <input
                   className="email-form__attachment-input"
                   ref={attachmentInputRef}
-                  id="attachment"
+                  id="attachments"
                   type="file"
-                  name="attachment"
+                  name="attachments"
+                  multiple
                   onChange={handleAttachmentChange}
                 />
 
                 <small className="email-form__attachment-info">
-                  Maximálna veľkosť prílohy je 15 MB.
+                  Maximálna celková veľkosť príloh je 25 MB.
                 </small>
 
-                {attachment && (
-                  <div className="email-form__attachment-selected">
-                    <div className="email-form__attachment-details">
-                      <strong className="email-form__attachment-name">
-                        {attachment.name}
-                      </strong>
-                      <span className="email-form__attachment-size">
-                        {(attachment.size / (1024 * 1024)).toFixed(2)} MB
-                      </span>
-                    </div>
+                {attachments.length > 0 && (
+                  <div className="email-form__attachment-list">
+                    {attachments.map((attachment, index) => (
+                      <div
+                        className="email-form__attachment-selected"
+                        key={`${attachment.name}-${index}`}
+                      >
+                        <div className="email-form__attachment-details">
+                          <strong className="email-form__attachment-name">
+                            {attachment.name}
+                          </strong>
+                          <span className="email-form__attachment-size">
+                            {(attachment.size / (1024 * 1024)).toFixed(2)} MB
+                          </span>
+                        </div>
 
-                    <button
-                      className="email-form__attachment-remove"
+                        <button
+                          className="email-form__attachment-remove"
 
-                      type="button"
-                      onClick={handleRemoveAttachment}
-                      aria-label="Zrušiť výber prílohy"
-                      title="Zrušiť výber prílohy"
-                    >
-                      ×
-                    </button>
+                          type="button"
+                          onClick={() => handleRemoveAttachment(index)}
+                          aria-label="Zrušiť výber prílohy"
+                          title="Zrušiť výber prílohy"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
                   </div>
                 )}
 
@@ -253,7 +278,9 @@ export default function EmailForm({ emailType }) {
                       !
                     </span>
 
-                    <span>Príloha prekračuje maximálnu veľkosť 15 MB.</span>
+                    <span>
+                      Celková veľkosť príloh prekračuje maximálny limit 25 MB.
+                    </span>
                   </div>
                 )}
               </div>
@@ -278,7 +305,6 @@ export default function EmailForm({ emailType }) {
             </div>
           </div>
         )}
-
         <button
           className="email-form__button"
           type="submit"
