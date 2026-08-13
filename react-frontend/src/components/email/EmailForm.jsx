@@ -19,7 +19,6 @@ export default function EmailForm({ emailType }) {
     message: "",
   });
   const [attachments, setAttachments] = useState([]);
-  const [attachmentPreview, setAttachmentPreview] = useState(null);
 
   const [info, setInfo] = useState("");
   const [error, setError] = useState("");
@@ -83,14 +82,6 @@ export default function EmailForm({ emailType }) {
       setAttachmentStatus("success");
     }
 
-    const selectedFile = selectedFiles[0];
-
-    if (selectedFile && selectedFile.type.startsWith("image/")) {
-      setAttachmentPreview(URL.createObjectURL(selectedFile));
-    } else {
-      setAttachmentPreview(null);
-    }
-
     event.target.value = "";
   }
   function resetForm() {
@@ -100,7 +91,6 @@ export default function EmailForm({ emailType }) {
       message: "",
     });
     setAttachments([]);
-    setAttachmentPreview(null);
     setAttachmentStatus("");
 
     if (attachmentInputRef.current) {
@@ -161,6 +151,17 @@ export default function EmailForm({ emailType }) {
       setIsSending(false);
     }
   }
+
+  const totalAttachmentsSize = attachments.reduce(
+    (sum, file) => sum + file.size,
+    0
+  );
+
+  const remainingAttachmentsSize = MAX_ATTACHMENTS_SIZE - totalAttachmentsSize;
+
+  const imageAttachments = attachments.filter((attachment) =>
+    attachment.type.startsWith("image/")
+  );
 
   return (
     <div className="email-form">
@@ -228,7 +229,8 @@ export default function EmailForm({ emailType }) {
                 />
 
                 <small className="email-form__attachment-info">
-                  Maximálna celková veľkosť príloh je 25 MB.
+                  Maximálna celková veľkosť príloh je 25 MB. Zostáva{" "}
+                  {(remainingAttachmentsSize / (1024 * 1024)).toFixed(2)} MB.
                 </small>
 
                 {attachments.length > 0 && (
@@ -286,18 +288,26 @@ export default function EmailForm({ emailType }) {
               </div>
 
               <div className="email-form__attachment-preview">
-                <h3 className="email-form__attachment-title">Náhľad prílohy</h3>
+                <h3 className="email-form__attachment-title">
+                  Náhľad obrázkov
+                </h3>
 
                 <div className="email-form__attachment-preview-content">
-                  {attachmentPreview ? (
-                    <img
-                      className="email-form__attachment-preview-image"
-                      src={attachmentPreview}
-                      alt="Náhľad vybranej prílohy"
-                    />
+                  {imageAttachments.length > 0 ? (
+                    <div className="email-form__attachment-preview-list">
+                      {imageAttachments.map((attachment, index) => (
+                        <img
+                          key={`${attachment.name}-${index}`}
+                          className="email-form__attachment-preview-image"
+                          src={URL.createObjectURL(attachment)}
+                          alt={`Náhľad prílohy ${attachment.name}`}
+                        />
+                      ))}
+                    </div>
                   ) : (
                     <p className="email-form__attachment-preview-placeholder">
-                      Náhľad prílohy sa zobrazí po výbere.
+                      Medzi vybranými prílohami nie je žiadny obrázok na
+                      zobrazenie.
                     </p>
                   )}
                 </div>
@@ -305,6 +315,7 @@ export default function EmailForm({ emailType }) {
             </div>
           </div>
         )}
+
         <button
           className="email-form__button"
           type="submit"
