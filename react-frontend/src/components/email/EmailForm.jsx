@@ -13,6 +13,12 @@ export default function EmailForm({ emailType }) {
     htmlWithAttachment: "Odoslať HTML email s prílohou",
   };
 
+  const emailTypeInfo = {
+    text: "Email bude odoslaný ako textový email.",
+    html: "Email bude odoslaný vo formáte HTML.",
+    htmlWithAttachment: "Email bude odoslaný vo formáte HTML s prílohou.",
+  };
+
   const [emailData, setEmailData] = useState({
     to: "",
     subject: "",
@@ -165,8 +171,6 @@ export default function EmailForm({ emailType }) {
 
   return (
     <div className="email-form">
-      <h2 className="email-form__title">{emailTitle[emailType]}</h2>
-
       <form className="email-form__form" onSubmit={handleSubmit}>
         <div className="email-form__group">
           <label className="email-form__label" htmlFor="to">
@@ -316,14 +320,19 @@ export default function EmailForm({ emailType }) {
           </div>
         )}
 
-        <button
-          className="email-form__button"
-          type="submit"
-          disabled={isSending}
-        >
-          {isSending ? "Odosielanie..." : emailTitle[emailType]}
-        </button>
+        <div className="email-form__actions">
+          <button
+            className="email-form__button"
+            type="submit"
+            disabled={isSending}
+          >
+            {isSending ? "Odosielanie..." : emailTitle[emailType]}
+          </button>
 
+          <div className="email-form__email-info">
+            {emailTypeInfo[emailType]}
+          </div>
+        </div>
         {info && <p>{info}</p>}
         {error && <p>{error}</p>}
       </form>
