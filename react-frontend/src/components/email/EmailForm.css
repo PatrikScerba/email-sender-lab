@@ -199,11 +199,14 @@
 
 .email-form__attachment-preview-content {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+    height: 100%;t;
 
-  min-height: 220px;
-  padding: 1rem;
+  min-height: 300px;
+  max-height: 300px;
+  padding: 1.5rem 1.25rem 1rem 1rem;
+
+  overflow-y: auto;
 
   border: 1px dashed var(--color-border);
   border-radius: var(--radius-small);
@@ -214,10 +217,12 @@
 .email-form__attachment-preview-image {
   display: block;
 
-  max-width: 100%;
-  max-height: 280px;
+  width: 150px;
+  height: 150px;
 
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-small);
+  align-items: flex-start;
 
   object-fit: contain;
 }
@@ -366,4 +371,22 @@
   border-color: rgba(255, 95, 109, 0.3);
   background-color: rgba(255, 95, 109, 0.1);
   color: var(--color-error);
+}
+
+.email-form__attachment-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-small);
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.email-form__attachment-preview-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  overflow-y: auto;
+
+  gap: 0.5rem;
+  width: 100%;
 }
