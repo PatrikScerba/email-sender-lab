@@ -326,10 +326,12 @@ export default function EmailForm({ emailType }) {
             type="submit"
             disabled={isSending}
           >
+          <span className="email-form__button-icon">➤</span>
             {isSending ? "Odosielanie..." : emailTitle[emailType]}
           </button>
 
           <div className="email-form__email-info">
+              <span className="email-form__email-info-icon">i</span>
             {emailTypeInfo[emailType]}
           </div>
         </div>
