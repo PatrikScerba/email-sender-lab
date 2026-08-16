@@ -13,6 +13,8 @@ export default function EmailPage() {
         <AppHeader />
 
         <section className="email-card">
+             <h2 className="email-card__title">Odoslať email</h2>
+
           <EmailTypeSelector
             emailType={emailType}
             setEmailType={setEmailType}
