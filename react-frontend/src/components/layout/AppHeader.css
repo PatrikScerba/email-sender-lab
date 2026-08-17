@@ -7,9 +7,10 @@
 }
 
 .app-header__brand {
+  transform: translateX(-28px);
   display: flex;
   align-items: center;
-  gap: var(--space-large);
+  gap: 0.65rem;
 }
 
 .app-header__icon {
@@ -17,15 +18,20 @@
   justify-content: center;
   align-items: center;
 
-  width: 88px;
-  height: 88px;
+  width: 135px;
+  height: 135px;
 
-  border: 2px solid var(--color-primary);
-  border-radius: var(--radius-large);
+  border: none;
+  background: transparent;
+}
 
-  background: linear-gradient(135deg, #0b223d, #071423);
+.app-header__logo {
+  display: block;
 
-  font-size: 42px;
+  width: 120%;
+  height: 120%;
+
+  object-fit: contain;
 }
 
 .app-header__text h1 {
