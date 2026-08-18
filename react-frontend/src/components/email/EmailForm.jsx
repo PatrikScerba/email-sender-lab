@@ -222,16 +222,31 @@ export default function EmailForm({ emailType }) {
             <div className="email-form__attachment-card">
               <div className="email-form__attachment-controls">
                 <h3 className="email-form__attachment-title">Príloha</h3>
-                <input
-                  className="email-form__attachment-input"
-                  ref={attachmentInputRef}
-                  id="attachments"
-                  type="file"
-                  name="attachments"
-                  multiple
-                  onChange={handleAttachmentChange}
-                />
 
+                <div className="email-form__attachment-upload">
+                  <input
+                    className="email-form__attachment-input"
+                    ref={attachmentInputRef}
+                    id="attachments"
+                    type="file"
+                    name="attachments"
+                    multiple
+                    onChange={handleAttachmentChange}
+                  />
+
+                  <label
+                    className="email-form__attachment-button"
+                    htmlFor="attachments"
+                  >
+                    Vybrať súbory
+                  </label>
+
+                  <span className="email-form__attachment-file-info">
+                    {attachments.length === 0
+                      ? "Nie je vybraný žiadny súbor"
+                      : `Vybrané súbory: ${attachments.length}`}
+                  </span>
+                </div>
                 <small className="email-form__attachment-info">
                   Maximálna celková veľkosť príloh je 25 MB. Zostáva{" "}
                   {(remainingAttachmentsSize / (1024 * 1024)).toFixed(2)} MB.
@@ -326,12 +341,12 @@ export default function EmailForm({ emailType }) {
             type="submit"
             disabled={isSending}
           >
-          <span className="email-form__button-icon">➤</span>
+            <span className="email-form__button-icon">➤</span>
             {isSending ? "Odosielanie..." : emailTitle[emailType]}
           </button>
 
           <div className="email-form__email-info">
-              <span className="email-form__email-info-icon">i</span>
+            <span className="email-form__email-info-icon">i</span>
             {emailTypeInfo[emailType]}
           </div>
         </div>
