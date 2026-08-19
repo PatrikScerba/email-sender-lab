@@ -260,7 +260,10 @@ export default function EmailForm({ emailType }) {
                         key={`${attachment.name}-${index}`}
                       >
                         <div className="email-form__attachment-details">
-                          <strong className="email-form__attachment-name">
+                          <strong
+                            className="email-form__attachment-name"
+                            title={attachment.name}
+                          >
                             {attachment.name}
                           </strong>
                           <span className="email-form__attachment-size">
