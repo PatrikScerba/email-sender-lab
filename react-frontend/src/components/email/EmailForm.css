@@ -43,6 +43,8 @@
 }
 .email-form__textarea {
   min-height: 220px;
+  max-height: 420px;
+  overflow-y: auto;
   resize: vertical;
   line-height: 1.6;
 }
@@ -460,4 +462,27 @@
   line-height: 1;
 
   transform: translateY(-1px) rotate(-25deg);
+}
+
+@media (max-width: 768px) {
+  .email-form__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .email-form__button {
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  .email-form__email-info {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .email-form__attachment-upload {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
