@@ -67,3 +67,55 @@
 
   text-transform: uppercase;
 }
+
+@media (max-width: 900px) {
+  .app-header {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .app-header__brand {
+    transform: none;
+  }
+
+  .app-header__project {
+    text-align: center;
+  }
+
+  .app-header__text h1 {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 400px) {
+  .app-header__brand {
+    gap: 0.4rem;
+  }
+
+  .app-header__icon {
+    width: 90px;
+    height: 90px;
+  }
+
+  .app-header__text h1 {
+    font-size: 28px;
+  }
+
+  .app-header__text p {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 600px) {
+  .email-type-selector {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .email-type-selector__button {
+    width: 100%;
+    min-width: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+}

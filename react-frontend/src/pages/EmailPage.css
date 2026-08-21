@@ -30,3 +30,13 @@
 
   color: var(--color-text);
 }
+
+@media (max-width: 600px) {
+  .email-page {
+    padding: 20px 12px 32px;
+  }
+
+  .email-card {
+    padding: 1.25rem;
+  }
+}
