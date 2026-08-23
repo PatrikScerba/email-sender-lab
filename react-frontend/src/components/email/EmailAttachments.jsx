@@ -1,3 +1,5 @@
+import "./EmailAttachments.css";
+
 export default function EmailAttachments({
   attachments,
   attachmentStatus,
