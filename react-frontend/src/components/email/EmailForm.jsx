@@ -7,19 +7,21 @@ import {
 import "./EmailForm.css";
 import EmailAttachments from "./EmailAttachments";
 
+const EMAIL_TITLE = {
+  text: "Odoslať textový email",
+  html: "Odoslať HTML email",
+  htmlWithAttachment: "Odoslať HTML email s prílohou",
+};
+
+const EMAIL_TYPE_INFO = {
+  text: "Email bude odoslaný ako textový email.",
+  html: "Email bude odoslaný vo formáte HTML.",
+  htmlWithAttachment: "Email bude odoslaný vo formáte HTML s prílohou.",
+};
+
+const MAX_ATTACHMENTS_SIZE = 25 * 1024 * 1024;
+
 export default function EmailForm({ emailType }) {
-  const emailTitle = {
-    text: "Odoslať textový email",
-    html: "Odoslať HTML email",
-    htmlWithAttachment: "Odoslať HTML email s prílohou",
-  };
-
-  const emailTypeInfo = {
-    text: "Email bude odoslaný ako textový email.",
-    html: "Email bude odoslaný vo formáte HTML.",
-    htmlWithAttachment: "Email bude odoslaný vo formáte HTML s prílohou.",
-  };
-
   const [emailData, setEmailData] = useState({
     to: "",
     subject: "",
@@ -29,8 +31,6 @@ export default function EmailForm({ emailType }) {
 
   const [info, setInfo] = useState("");
   const [error, setError] = useState("");
-
-  const MAX_ATTACHMENTS_SIZE = 25 * 1024 * 1024;
 
   const [isSending, setIsSending] = useState(false);
   const attachmentInputRef = useRef(null);
@@ -236,12 +236,12 @@ export default function EmailForm({ emailType }) {
             disabled={isSending}
           >
             <span className="email-form__button-icon">➤</span>
-            {isSending ? "Odosielanie..." : emailTitle[emailType]}
+            {isSending ? "Odosielanie..." : EMAIL_TITLE[emailType]}
           </button>
 
           <div className="email-form__email-info">
             <span className="email-form__email-info-icon">i</span>
-            {emailTypeInfo[emailType]}
+            {EMAIL_TYPE_INFO[emailType]}
           </div>
         </div>
         {info && <p>{info}</p>}
