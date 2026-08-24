@@ -52,7 +52,7 @@ public class EmailServiceImpl implements EmailService {
         SimpleMailMessage emailMessage = new SimpleMailMessage();
 
         // Nastavenie základných údajov emailu.
-        emailMessage.setFrom(fromEmail);
+        emailMessage.setFrom(SENDER_NAME + " <" + fromEmail + ">");
         emailMessage.setTo(emailRequest.getTo());
         emailMessage.setSubject(emailRequest.getSubject());
         emailMessage.setText(emailRequest.getMessage());
