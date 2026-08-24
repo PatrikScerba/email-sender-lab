@@ -17,7 +17,7 @@ export default function AppHeader() {
             Email Sender <span>Lab</span>
           </h1>
 
-          <p>Mini projekt na odosielanie emailov</p>
+          <p>Modul na odosielanie emailov</p>
         </div>
       </div>
 

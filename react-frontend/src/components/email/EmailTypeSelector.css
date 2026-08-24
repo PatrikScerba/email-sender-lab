@@ -30,8 +30,9 @@
 }
 
 .email-type-selector__button:hover {
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: var(--color-primary-hover);
   color: var(--color-text);
+  transform: translateY(-1px);
 }
 .email-type-selector__button--active {
   background-color: #2563eb;
