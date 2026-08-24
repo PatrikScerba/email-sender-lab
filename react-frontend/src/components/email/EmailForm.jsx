@@ -43,6 +43,7 @@ export default function EmailForm({ emailType }) {
       ...emailData,
       [name]: value,
     });
+    setError("");
   }
 
   function handleRemoveAttachment(indexToRemove) {
@@ -244,8 +245,18 @@ export default function EmailForm({ emailType }) {
             {EMAIL_TYPE_INFO[emailType]}
           </div>
         </div>
-        {info && <p>{info}</p>}
-        {error && <p>{error}</p>}
+        {info && (
+          <div className="email-form__attachment-status email-form__attachment-status--success">
+            <span className="email-form__attachment-status-icon">✓</span>
+            <span>{info}</span>
+          </div>
+        )}
+        {error && (
+          <div className="email-form__attachment-status email-form__attachment-status--error">
+            <span className="email-form__attachment-status-icon">!</span>
+            <span>{error}</span>
+          </div>
+        )}
       </form>
     </div>
   );
