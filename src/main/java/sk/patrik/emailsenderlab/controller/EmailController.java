@@ -41,7 +41,7 @@ public class EmailController {
         return ResponseEntity.ok("HTML email bol úspešne odoslaný.");
     }
 
-    // Endpoint na odoslanie HTML emailu s voliteľnou prílohou.
+    // Endpoint na odoslanie HTML emailu s voliteľnými prílohami.
     @PostMapping(
             value = "/send-attachment",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
@@ -51,7 +51,7 @@ public class EmailController {
             // JSON údaje emailu odoslané ako samostatná časť multipart požiadavky.
             @Valid @RequestPart("emailData") EmailRequest emailRequest,
 
-            // Voliteľný súbor vybraný používateľom vo formulári.
+            // Voliteľné súbory vybrané používateľom vo formulári.
             @RequestPart(value = "attachments", required = false)
             List<MultipartFile> attachments
     ) {

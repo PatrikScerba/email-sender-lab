@@ -81,14 +81,14 @@ public class EmailServiceImpl implements EmailService {
 
         if (attachments != null && !attachments.isEmpty()) {
 
-            long totalAttachmentsSize =0;
+            long totalAttachmentsSize = 0;
 
-            for (MultipartFile attachment:attachments){
+            for (MultipartFile attachment : attachments) {
                 totalAttachmentsSize += attachment.getSize();
             }
-            if (totalAttachmentsSize > MAX_ATTACHMENT_SIZE){
+            if (totalAttachmentsSize > MAX_ATTACHMENT_SIZE) {
 
-                throw  new IllegalArgumentException(
+                throw new IllegalArgumentException(
                         "Celková veľkosť príloh nemôže byť väčšia ako 25 MB."
                 );
             }

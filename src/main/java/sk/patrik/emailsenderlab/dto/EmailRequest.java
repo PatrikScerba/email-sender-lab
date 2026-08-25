@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
  * DTO trieda, ktorá predstavuje požiadavku na odoslanie emailu.
  *
  * Obsahuje základné údaje potrebné pre odoslanie emailu:
- * príjemcu, predmet a voliteľnú správu.
+ * príjemcu, predmet a správu.
  */
 public class EmailRequest {
 
