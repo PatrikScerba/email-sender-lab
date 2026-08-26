@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from "react";
 import "./EmailAttachments.css";
 
 export default function EmailAttachments({
@@ -5,10 +6,27 @@ export default function EmailAttachments({
   attachmentStatus,
   attachmentInputRef,
   remainingAttachmentsSize,
-  imageAttachments,
   onAttachmentChange,
   onRemoveAttachment,
 }) {
+
+  const imagePreviews = useMemo(() => {
+    return attachments
+      .filter((attachment) => attachment.type.startsWith("image/"))
+      .map((attachment) => ({
+        attachment,
+        url: URL.createObjectURL(attachment),
+      }));
+  }, [attachments]);
+
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach(({ url }) => {
+        URL.revokeObjectURL(url);
+      });
+    };
+  }, [imagePreviews]);
+
   return (
     <div className="email-form__attachment">
       <div className="email-form__attachment-card">
@@ -101,13 +119,13 @@ export default function EmailAttachments({
           <h3 className="email-form__attachment-title">Náhľad obrázkov</h3>
 
           <div className="email-form__attachment-preview-content">
-            {imageAttachments.length > 0 ? (
+            {imagePreviews.length > 0 ? (
               <div className="email-form__attachment-preview-list">
-                {imageAttachments.map((attachment, index) => (
+                {imagePreviews.map(({ attachment, url }, index) => (
                   <img
                     key={`${attachment.name}-${index}`}
                     className="email-form__attachment-preview-image"
-                    src={URL.createObjectURL(attachment)}
+                    src={url}
                     alt={`Náhľad prílohy ${attachment.name}`}
                   />
                 ))}

@@ -167,10 +167,6 @@ export default function EmailForm({ emailType }) {
 
   const remainingAttachmentsSize = MAX_ATTACHMENTS_SIZE - totalAttachmentsSize;
 
-  const imageAttachments = attachments.filter((attachment) =>
-    attachment.type.startsWith("image/")
-  );
-
   return (
     <div className="email-form">
       <form className="email-form__form" onSubmit={handleSubmit}>
@@ -227,7 +223,6 @@ export default function EmailForm({ emailType }) {
             attachmentStatus={attachmentStatus}
             attachmentInputRef={attachmentInputRef}
             remainingAttachmentsSize={remainingAttachmentsSize}
-            imageAttachments={imageAttachments}
             onAttachmentChange={handleAttachmentChange}
             onRemoveAttachment={handleRemoveAttachment}
           />
