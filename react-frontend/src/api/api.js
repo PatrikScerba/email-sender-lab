@@ -13,7 +13,7 @@ export async function apiFetch(path, options = {}) {
 
   const contentType = response.headers.get("content-type");
 
-  let data = null;
+  let data;
 
   if (contentType && contentType.includes("application/json")) {
     data = await response.json();

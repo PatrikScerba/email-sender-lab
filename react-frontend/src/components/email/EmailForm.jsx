@@ -184,6 +184,7 @@ export default function EmailForm({ emailType }) {
             type="email"
             name="to"
             placeholder="Príjemca"
+            autoComplete="email"
             value={emailData.to}
             onChange={handleChange}
           />
@@ -199,6 +200,7 @@ export default function EmailForm({ emailType }) {
             type="text"
             name="subject"
             placeholder="Predmet"
+            autoComplete="off"
             value={emailData.subject}
             onChange={handleChange}
           />
