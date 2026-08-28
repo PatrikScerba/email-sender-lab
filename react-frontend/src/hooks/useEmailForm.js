@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   sendTextEmail,
   sendHtmlEmail,
@@ -24,6 +24,17 @@ export default function useEmailForm(emailType) {
   const attachmentInputRef = useRef(null);
 
   const [attachmentStatus, setAttachmentStatus] = useState("");
+
+  useEffect(() => {
+    if (emailType !== "htmlWithAttachment") {
+      setAttachments([]);
+      setAttachmentStatus("");
+
+      if (attachmentInputRef.current) {
+        attachmentInputRef.current.value = "";
+      }
+    }
+  }, [emailType]);
 
   function handleChange(event) {
     const { name, value } = event.target;
