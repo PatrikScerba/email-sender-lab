@@ -38,7 +38,7 @@ public class EmailController {
     @PostMapping("/send-html")
     public ResponseEntity<String> sendHtmlEmail(@Valid @RequestBody EmailRequest emailRequest) {
         emailService.sendHtmlEmail(emailRequest);
-        return ResponseEntity.ok("HTML email bol úspešne odoslaný.");
+        return ResponseEntity.ok("Email bol úspešne odoslaný.");
     }
 
     // Endpoint na odoslanie HTML emailu s voliteľnými prílohami.
