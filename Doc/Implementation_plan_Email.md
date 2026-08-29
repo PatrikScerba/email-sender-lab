@@ -56,7 +56,7 @@
 - zobrazenie úspešnej a chybovej správy
 - testovanie všetkých typov emailov
 
-### 7. [ROZPRACOVANÉ] Finálne úpravy projektu
+### 7. [HOTOVO] Finálne úpravy projektu
 
 - refaktoring zdrojového kódu
 - optimalizácia React komponentov
